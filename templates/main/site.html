@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТуТи - Кондитерская</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce8e8 0%, #ffd4d4 100%);
+        }
+
+        .header {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-hidden {
+            opacity: 0;
+        }
+
+        .parallax {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1587248720327-8eb72564be1e');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .glass-nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 15px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        .hero-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+        }
+.hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .products {
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+
+        .about {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.3);
+        }
+.about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .about-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .contact {
+            padding: 100px 0;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .glass-nav {
+                padding: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="parallax"></div>
+        <nav class="glass-nav">
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#products">Меню</a></li>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="hero" id="home">
+            <div class="hero-content">
+                <h1>Кондитерская ТуТи</h1>
+                <p>Изысканные десерты ручной работы для особенных моментов</p>
+                <a href="#products" class="btn">Смотреть меню</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Наши десерты</h2>
+                <p>Откройте для себя мир изысканных вкусов</p>
+            </div>
+            <div class="products-grid">
+                {% for item in page_obj %}
+                <div class="product-card" data-aos="fade-up">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="product-img">
+                    <div class="product-info">
+                        <h3>{{ item.name }}</h3>
+                        <p>{{ item.description }}</p>
+                        <span class="price">{{ item.price }}₽</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        <!-- Пагинация -->
+        <div class="pagination" data-aos="fade-up">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn">&laquo; Первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn">Предыдущая</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn">Следующая</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn">Последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+            </div>
+        </div>
+    </section>
+<section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d" alt="О нас" class="about-img" data-aos="fade-right">
+                <div class="about-text" data-aos="fade-left">
+                    <h2>О кондитерской ТуТи</h2>
+                    <p>Мы создаем неповторимые десерты с любовью и заботой о каждом клиенте. Наша команда профессиональных кондитеров использует только натуральные ингредиенты высочайшего качества.</p>
+                    <p>Каждое наше изделие - это произведение искусства, созданное с вниманием к мельчайшим деталям. Мы гордимся тем, что приносим радость и делаем особенные моменты жизни еще более запоминающимися.</p>
+                    <a href="#contact" class="btn">Связаться с нами</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Свяжитесь с нами</h2>
+            <p>Закажите десерт или задайте вопрос</p>
+        </div>
+        <form class="contact-form" method="POST" action="" data-aos="fade-up">
+            {% csrf_token %}  <!-- Защита от CSRF-атак -->
+            <div class="form-group">
+                <label for="name">Ваше имя</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Сообщение</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Отправить</button>
+            
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div id="alert-message" class="alert alert-success">
+                {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Кондитерская ТуТи. Все права защищены.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-vk"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+<script>
+        // Инициализация AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Параллакс эффект
+        window.addEventListener('scroll', function() {
+            const parallax = document.querySelector('.parallax');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+        });
+
+        // Плавная прокрутка к секциям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = document.querySelector(this.getAttribute('href'));
+                section.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Анимация навигации при скролле
+        const nav = document.querySelector('.glass-nav');
+        let lastScroll = 0;
+		
+let parallax = document.querySelector('.parallax');
+let lastKnownScrollPosition = 0;
+let ticking = false;
+
+function updateParallax(scrollPos) {
+    parallax.style.transform = 'translateY(' + scrollPos * 0.5 + 'px)';
+}
+
+window.addEventListener('scroll', function() {
+    lastKnownScrollPosition = window.scrollY;
+
+    if (!ticking) {
+        window.requestAnimationFrame(function() {
+            updateParallax(lastKnownScrollPosition);
+            ticking = false;
+        });
+
+        ticking = true;
+    }
+});
+
+        // Анимация при наведении на карточки продуктов
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Edtljvktybt
+         document.addEventListener('DOMContentLoaded', function() {
+        const alertMessage = document.getElementById('alert-message');
+
+        if (alertMessage) {
+            setTimeout(function() {
+                alertMessage.classList.add('alert-hidden');
+
+                setTimeout(function() {
+                    alertMessage.remove();
+                }, 500);
+            }, 3000);
+        }
+    });
+    </script>
+</body>
+</html>

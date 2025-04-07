@@ -1,0 +1,57 @@
+{% extends "admin/change_form.html" %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% if show_warning %}
+        <div class="alert alert-warning" style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border-color: #ffeeba; color: #856404;">
+            <strong>Внимание!</strong> Не все обязательные поля заполнены. Запись не может быть опубликована.
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+    {{ block.super }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const publishedField = document.querySelector('[name="published"]');
+            const publishButton = document.querySelector('[name="_publish"]');
+
+            // Функция для проверки заполненности полей
+            function checkFields() {
+                const requiredFields = ['name', 'price', 'barcode', 'unit'];
+                let isComplete = true;
+
+                requiredFields.forEach(field => {
+                    const fieldElement = document.querySelector(`[name="${field}"]`);
+                    if (fieldElement && !fieldElement.value) {
+                        isComplete = false;
+                    }
+                });
+
+                return isComplete;
+            }
+
+            // Отключаем кнопку "Опубликовать", если не все поля заполнены
+            if (publishButton) {
+                if (!checkFields()) {
+                    publishButton.disabled = true;
+                    publishButton.title = "Не все обязательные поля заполнены.";
+                }
+
+                // Динамическая проверка при изменении полей
+                const form = document.getElementById('menu_form');
+                form.addEventListener('input', function() {
+                    if (checkFields()) {
+                        publishButton.disabled = false;
+                        publishButton.title = "";
+                    } else {
+                        publishButton.disabled = true;
+                        publishButton.title = "Не все обязательные поля заполнены.";
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}
